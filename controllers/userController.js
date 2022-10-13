@@ -61,7 +61,7 @@ const me = async(req, res) => {
 }
 const exists = async (req, res) => {
     const user = await User.find({username: req.body.username});
-    if(user)
+    if(user.length>0)
     {
         res.status(200).json({exists: 'true'})
     }
