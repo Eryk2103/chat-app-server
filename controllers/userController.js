@@ -1,6 +1,7 @@
 const User = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const { json } = require('express');
 
 const register = async (req, res) => {
     console.log(req.body)
@@ -46,19 +47,27 @@ const login = async (req, res) => {
 }
 const me = async(req, res) => {
     try{
-        const username = req.user.username;
-        const user = await User.find({username: username})
         res.status(200).json({
-            username: user.username
+            username: req.user.username
         })
     }
     catch(err)
     {
-        res.status(401).json({message: '/me unathorized'})
+        res.status(401).json({message: 'unathorized'})
         console.log(err.message)
     }
     
     
+}
+const exists = async (req, res) => {
+    const user = await User.find({username: req.body.username});
+    if(user)
+    {
+        res.status(200).json({exists: 'true'})
+    }
+    else{
+        res.status(200).json({exists: 'false'})
+    }
 }
 
 //Private functions
@@ -67,4 +76,4 @@ const generateToken = (id) => {
         expiresIn: '30m'
     })
 }
-module.exports = {register, login, me};
+module.exports = {register, login, me, exists};

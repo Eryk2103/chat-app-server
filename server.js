@@ -20,13 +20,14 @@ app.use('/user', require('./routes/user'));
 io.on('connection', (socket) => {
     socket.on('join-room', (room, user) => {
         socket.join(room);
-        console.log(`user: ${user} connected to: ${room}`)
+        socket.to(room).emit('message', {user: user, message: 'joined chat'})
     })
-    socket.on('send-message', (room, msg) => {
-        socket.to(room).emit('message', msg);
+    socket.on('send-message', (room, msg, user) => {
+        socket.to(room).emit('message', {user: user, message: msg});
     })
-    socket.on('leave-room', room => {
+    socket.on('leave-room', (room, user) => {
         socket.leave(room);
+        socket.to(room).emit('message', {user: user, message: 'left chat'})
     })
 });
 

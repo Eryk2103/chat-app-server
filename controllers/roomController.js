@@ -5,7 +5,6 @@ const createRoom = async (req, res) => {
         const room = await Room.create({
             name: req.body.name,
             isPublic: req.body.isPublic,
-            users: [req.user.username]
         })
         res.status(200).json(room)
     }
@@ -17,8 +16,8 @@ const createRoom = async (req, res) => {
 }
 const getRooms = async (req, res) => {
     try{
-        console.log('rooms')
-        const rooms = await Room.find({users: { $all: [req.user.username]}});
+  
+        const rooms = await Room.find();
         res.status(200).json(rooms);
     }
     catch(e){
