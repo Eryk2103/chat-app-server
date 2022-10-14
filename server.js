@@ -9,7 +9,7 @@ app.use(express.json())
 
 const server = http.createServer(app);
 const {Server} = require('socket.io');
-const io = new Server(server, {cors: { origin: '*'}});
+const io = new Server(server, {cors: { origin: '*', secure: true}});
 
 const connectDB = require('./db');
 connectDB();
@@ -32,4 +32,4 @@ io.on('connection', (socket) => {
 });
 
 
-server.listen(5000, () => console.log('server start'));
+server.listen(8080, () => console.log('server start'));
