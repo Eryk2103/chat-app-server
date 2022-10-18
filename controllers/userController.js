@@ -73,7 +73,7 @@ const exists = async (req, res) => {
 //Private functions
 const generateToken = (id) => {
     return jwt.sign({id}, process.env.SECRET, {
-        expiresIn: '30m'
+        expiresIn: '60m'
     })
 }
 module.exports = {register, login, me, exists};

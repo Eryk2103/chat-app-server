@@ -9,13 +9,14 @@ app.use(express.json())
 
 const server = http.createServer(app);
 const {Server} = require('socket.io');
-const io = new Server(server, {cors: { origin: '*', secure: true}});
+const io = new Server(server, {cors: { origin: '*'}});
 
 const connectDB = require('./db');
 connectDB();
 
 app.use('/room', require('./routes/room'));
 app.use('/user', require('./routes/user'));
+
 
 io.on('connection', (socket) => {
     socket.on('join-room', (room, user) => {
@@ -32,4 +33,4 @@ io.on('connection', (socket) => {
 });
 
 
-server.listen(8080, () => console.log('server start'));
+server.listen(8000, () => console.log('server start')); 
